@@ -2,7 +2,6 @@ module.exports = function(grunt) {
     grunt.registerTask('build-web-app', [
         'gitinfo',
         'clean',
-        'eslint',
         'copy:html',
         'copy:favicon',
         'copy:icons',
@@ -26,24 +25,15 @@ module.exports = function(grunt) {
     grunt.registerTask('build-desktop-update', [
         'copy:desktop-update',
         'copy:desktop-update-helper',
-        'sign-desktop-files:desktop-update',
-        'compress:desktop-update',
-        'sign-archive:desktop-update',
-        'validate-desktop-update'
+        'compress:desktop-update'
     ]);
 
     grunt.registerTask('build-desktop-executables', [
         'electron',
-        'sign-exe:win32-build-x64',
-        'sign-exe:win32-build-ia32',
-        'copy:desktop-windows-helper-ia32',
-        'copy:desktop-windows-helper-x64',
         'chmod:linux-desktop-x64'
     ]);
 
     grunt.registerTask('build-desktop-archives', [
-        'compress:win32-x64',
-        'compress:win32-ia32',
         'compress:linux-x64'
     ]);
 
@@ -65,8 +55,6 @@ module.exports = function(grunt) {
     grunt.registerTask('build-desktop-dist-linux', ['deb:linux-x64']);
 
     grunt.registerTask('build-desktop-dist', [
-        'build-desktop-dist-darwin',
-        'build-desktop-dist-win32',
         'build-desktop-dist-linux'
     ]);
 
@@ -77,8 +65,7 @@ module.exports = function(grunt) {
         'build-desktop-executables',
         'build-desktop-update',
         'build-desktop-archives',
-        'build-desktop-dist',
-        'sign-dist'
+        'build-desktop-dist'
     ]);
 
     grunt.registerTask('build-cordova-app-content', ['string-replace:cordova-html']);
