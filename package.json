@@ -1,6 +1,7 @@
 {
     "name": "keeweb",
     "version": "1.12.3",
+    "packageRelease": "0",
     "description": "Free cross-platform password manager compatible with KeePass",
     "main": "Gruntfile.js",
     "private": true,
@@ -58,7 +59,7 @@
         "jquery": "3.4.1",
         "json-loader": "^0.5.7",
         "jsqrcode": "github:antelle/jsqrcode#0.1.3",
-        "kdbxweb": "1.5.6",
+        "kdbxweb": "github:cyosp/kdbxweb#release/1.5.8",
         "load-grunt-tasks": "5.1.0",
         "lodash": "^4.17.15",
         "marked": "^0.7.0",

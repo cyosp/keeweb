@@ -60,6 +60,15 @@ For debug build:
 1. run `npm run dev`
 2. open `http://localhost:8085`
 
+# Release
+To release Debian desktop app package using pipeline proceed like this:
+```
+VERSION_TAG="v1.12.3.0"
+git tag $VERSION_TAG
+git push
+git push origin $VERSION_TAG
+```
+
 # Contributing
 
 Please read contribution guidelines [for pull requests](.github/PULL_REQUEST_TEMPLATE.md).  
