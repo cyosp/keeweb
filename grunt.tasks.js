@@ -2,7 +2,6 @@ module.exports = function(grunt) {
     grunt.registerTask('build-web-app', [
         'gitinfo',
         'clean',
-        'eslint',
         'copy:html',
         'copy:favicon',
         'copy:icons',
@@ -29,10 +28,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build-desktop-update', [
         'copy:desktop-update',
         'copy:desktop-update-helper',
-        'sign-desktop-files:desktop-update',
-        'compress:desktop-update',
-        'sign-archive:desktop-update',
-        'validate-desktop-update'
+        'compress:desktop-update'
     ]);
 
     grunt.registerTask('build-desktop-executables-linux', [
@@ -52,8 +48,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build-desktop-executables', [
         'build-desktop-executables-linux',
-        'build-desktop-executables-darwin',
-        'build-desktop-executables-win32'
+        'build-desktop-executables-darwin'
     ]);
 
     grunt.registerTask('build-desktop-archives-linux', ['compress:linux-x64']);
@@ -64,8 +59,7 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('build-desktop-archives', [
-        'build-desktop-archives-linux',
-        'build-desktop-archives-win32'
+        'build-desktop-archives-linux'
     ]);
 
     grunt.registerTask('build-desktop-dist-darwin', ['appdmg']);
@@ -84,16 +78,11 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('build-desktop-dist-linux', [
-        'deb:linux-x64',
-        'electron-builder:linux',
-        'copy:electron-builder-dist-linux-rpm',
-        'copy:electron-builder-dist-linux-snap',
-        'copy:electron-builder-dist-linux-appimage'
+        'deb:linux-x64'
     ]);
 
     grunt.registerTask('build-desktop-dist', [
         'build-desktop-dist-darwin',
-        'build-desktop-dist-win32',
         'build-desktop-dist-linux'
     ]);
 
@@ -104,8 +93,7 @@ module.exports = function(grunt) {
         'build-desktop-executables',
         'build-desktop-update',
         'build-desktop-archives',
-        'build-desktop-dist',
-        'sign-dist'
+        'build-desktop-dist'
     ]);
 
     grunt.registerTask('build-cordova-app-content', ['string-replace:cordova-html']);
