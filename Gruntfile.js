@@ -129,7 +129,7 @@ module.exports = function(grunt) {
                 nonull: true
             },
             'desktop-update': {
-                cwd: 'tmp/desktop/KeeWeb-darwin-x64/KeeWeb.app/Contents/Resources/',
+                cwd: 'tmp/desktop/KeeWeb-linux-x64/resources/',
                 src: 'app.asar',
                 dest: 'tmp/desktop/update/',
                 expand: true,
@@ -287,83 +287,6 @@ module.exports = function(grunt) {
                     platform: 'linux',
                     arch: ['x64'],
                     icon: 'graphics/icon.ico'
-                }
-            },
-            darwin: {
-                options: {
-                    platform: 'darwin',
-                    arch: ['x64'],
-                    icon: 'graphics/icon.icns',
-                    appBundleId: 'net.antelle.keeweb',
-                    appCategoryType: 'public.app-category.productivity',
-                    extendInfo: 'package/osx/extend.plist',
-                    ...(codeSignConfig
-                        ? {
-                              osxSign: {
-                                  identity: codeSignConfig.identities.app,
-                                  hardenedRuntime: true,
-                                  entitlements: 'package/osx/entitlements.mac.plist',
-                                  'entitlements-inherit': 'package/osx/entitlements.mac.plist',
-                                  'gatekeeper-assess': false
-                              },
-                              osxNotarize: {
-                                  appleId: codeSignConfig.appleId,
-                                  appleIdPassword: '@keychain:AC_PASSWORD',
-                                  ascProvider: codeSignConfig.teamId
-                              }
-                          }
-                        : {}),
-                    afterCopy: [
-                        (buildPath, electronVersion, platform, arch, callback) => {
-                            if (path.basename(buildPath) !== 'app') {
-                                throw new Error('Bad build path: ' + buildPath);
-                            }
-                            const resPath = path.dirname(buildPath);
-                            if (path.basename(resPath) !== 'Resources') {
-                                throw new Error('Bad Resources path: ' + resPath);
-                            }
-                            const helperTargetPath = path.join(
-                                resPath,
-                                'helper/darwin/KeeWebHelper'
-                            );
-                            const helperSourcePath = path.join(
-                                __dirname,
-                                'helper/darwin/KeeWebHelper'
-                            );
-                            fs.copySync(helperSourcePath, helperTargetPath);
-
-                            const contentsPath = path.dirname(resPath);
-                            if (path.basename(contentsPath) !== 'Contents') {
-                                throw new Error('Bad Contents path: ' + contentsPath);
-                            }
-                            const installerSourcePath = path.join(
-                                __dirname,
-                                'package/osx/KeeWeb Installer.app'
-                            );
-                            const installerTargetPath = path.join(
-                                contentsPath,
-                                'Installer/KeeWeb Installer.app'
-                            );
-                            fs.copySync(installerSourcePath, installerTargetPath);
-
-                            callback();
-                        }
-                    ]
-                }
-            },
-            win32: {
-                options: {
-                    platform: 'win32',
-                    arch: ['ia32', 'x64'],
-                    icon: 'graphics/icon.ico',
-                    buildVersion: pkg.version,
-                    'version-string': {
-                        CompanyName: 'KeeWeb',
-                        FileDescription: pkg.description,
-                        OriginalFilename: 'KeeWeb.exe',
-                        ProductName: 'KeeWeb',
-                        InternalName: 'KeeWeb'
-                    }
                 }
             }
         },
