@@ -299,19 +299,19 @@ module.exports = function(grunt) {
                     extendInfo: 'package/osx/extend.plist',
                     ...(codeSignConfig
                         ? {
-                              osxSign: {
-                                  identity: codeSignConfig.identities.app,
-                                  hardenedRuntime: true,
-                                  entitlements: 'package/osx/entitlements.mac.plist',
-                                  'entitlements-inherit': 'package/osx/entitlements.mac.plist',
-                                  'gatekeeper-assess': false
-                              },
-                              osxNotarize: {
-                                  appleId: codeSignConfig.appleId,
-                                  appleIdPassword: '@keychain:AC_PASSWORD',
-                                  ascProvider: codeSignConfig.teamId
-                              }
-                          }
+                            osxSign: {
+                                identity: codeSignConfig.identities.app,
+                                hardenedRuntime: true,
+                                entitlements: 'package/osx/entitlements.mac.plist',
+                                'entitlements-inherit': 'package/osx/entitlements.mac.plist',
+                                'gatekeeper-assess': false
+                            },
+                            osxNotarize: {
+                                appleId: codeSignConfig.appleId,
+                                appleIdPassword: '@keychain:AC_PASSWORD',
+                                ascProvider: codeSignConfig.teamId
+                            }
+                        }
                         : {}),
                     afterCopy: [
                         (buildPath, electronVersion, platform, arch, callback) => {
@@ -349,21 +349,6 @@ module.exports = function(grunt) {
                             callback();
                         }
                     ]
-                }
-            },
-            win32: {
-                options: {
-                    platform: 'win32',
-                    arch: ['ia32', 'x64'],
-                    icon: 'graphics/icon.ico',
-                    buildVersion: pkg.version,
-                    'version-string': {
-                        CompanyName: 'KeeWeb',
-                        FileDescription: pkg.description,
-                        OriginalFilename: 'KeeWeb.exe',
-                        ProductName: 'KeeWeb',
-                        InternalName: 'KeeWeb'
-                    }
                 }
             }
         },

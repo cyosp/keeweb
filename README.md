@@ -40,9 +40,15 @@ The easiest way to clone all KeeWeb repos is:
 curl https://raw.githubusercontent.com/keeweb/keeweb/develop/dev-env.sh | bash -
 ```
 
-The app can be built with grunt: `grunt` (html file will be in `dist/`).    
-Desktop apps are built with `grunt desktop`. This works only in macOS as it builds dmg; requires wine.  
-Also, a hardware token is required.  
+The app can be built with grunt: `grunt` (html file will be in `dist/`).
+    
+Linux desktop app can be built using (deb file will be in `dist/desktop)`:
+```bash
+npm install
+grunt build-web-app --no-sign
+grunt build-desktop --no-sign
+```
+ 
 To run Electron app without building an installer, build the app with `grunt` and start it this way:
 ```bash
 npm run dev
@@ -53,6 +59,15 @@ For debug build:
 
 1. run `npm run dev`
 2. open `http://localhost:8085`
+
+# Release
+To release Debian desktop app package using pipeline proceed like this:
+```
+VERSION_TAG="1.12.3.1"
+git tag $VERSION_TAG
+git push
+git push origin $VERSION_TAG
+```
 
 # Contributing
 
