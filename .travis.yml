@@ -1,0 +1,32 @@
+language: node_js
+
+node_js:
+  - stable
+
+branches:
+  only:
+    - /^fork\/develop\/.*?\/.*$/
+
+install:
+  - npm install
+
+script:
+  - PACKAGE_RELEASE=$(echo $TRAVIS_BRANCH | perl -pe "s|.*?/.*?/.*?/(.*)|\1|")
+  - perl -i -pe "s|(\"version\":\s*\".*?)(\",)|\1.$PACKAGE_RELEASE\2|" package.json
+  - grunt build-web-app --no-sign
+  - GIT_LOG=$(git log -50 --date=short --pretty=format:"%h&#64;%ad_%an")
+  - LAST_ORIGINAL_COMMIT_INFOS=$(echo "$GIT_LOG" | sed '/[Cc][Yy][Oo][Ss][Pp]/d' | head -1 | cut -d '_' -f 1)
+  - perl -i -pe "s|<span\s*style=\"display.\s*none\">cyosp</span>|&nbsp;&#9282;&nbsp;CYOSP&nbsp;&#10148;&nbsp;#${LAST_ORIGINAL_COMMIT_INFOS}|" dist/index.html
+  - grunt build-desktop --no-sign
+
+deploy:
+  provider: releases
+  api_key:
+    secure: O5Ia18F6pn4zUs7ua+gxN/7j9FguplMFi6S2aAKr/StyV/f9Qxj8v84et9ockB3mQAzP4ka2Upu53bvXZsaxelnFVlWRaIBWTPCATj1kmU5Bh2TaUtRck82Ql4bvl/0pXEmyDVergoEVEu4z3dn3mk1bGnqmpBbzXQtrVU4UEktmSGdfgbmK7TNsyfFoeEejWJq5XKlZQtsG0MBBZc3X9JKNWjXsyphdGOjxR7iVndeTJtda0d1jrrqLWZ5Oj3oPbRfkW2eAbj94YUvXUn6pB4B2Psi7o8xZJb4HO/VjMHqSoWIaphiPUdWVjtKO/ciI7v6rVTcBxphM0kxPatlX1L8VUvlWnvDCXrmzcDX7sIMj78sW9NHQWBRqBDXKk4z9mz5DbgPzerRN+Xu/Wmtz1QQCaUH4m8yGoDGt4xodGex7GsarLXUocz8/5C7TDmuvwGQr/9wYl4qYzd9b/qOhJ6Vzuf3G3EMpd1cqbg/hyYkxC+HVq0ZD1DAWaCUbltEHeVg5nCIng7YoZm0ZoQhb1LMR4dcIKgglmoprPx3zYX+uguBqU/1EU0vMfcGpOpQTTn2o6zhSerXBXRLsHnxl28KOYmcZlD94cECtrrB2hNO6/LbslhcgSTfq24oL3Vna+u2cvb9d1DE8RtJnsnCXfCu8RcmtqQfGh2vzWx0ZN/4=
+  skip_cleanup: true
+  overwrite: true
+  file_glob: true
+  file: dist/desktop/KeeWeb-*.deb
+  on:
+    repo: cyosp/keeweb
+    branch: fork/develop/*
