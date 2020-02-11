@@ -361,21 +361,6 @@ module.exports = function(grunt) {
                         }
                     ]
                 }
-            },
-            win32: {
-                options: {
-                    platform: 'win32',
-                    arch: ['ia32', 'x64'],
-                    icon: 'graphics/icon.ico',
-                    buildVersion: pkg.version,
-                    'version-string': {
-                        CompanyName: 'KeeWeb',
-                        FileDescription: pkg.description,
-                        OriginalFilename: 'KeeWeb.exe',
-                        ProductName: 'KeeWeb',
-                        InternalName: 'KeeWeb'
-                    }
-                }
             }
         },
         'electron-builder': {
