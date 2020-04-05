@@ -3,7 +3,6 @@ const Links = {
     Repo: 'https://github.com/cyosp/keeweb',
     Desktop: 'https://github.com/cyosp/keeweb/releases/latest',
     WebApp: 'https://app.keeweb.info',
-    BetaWebApp: 'https://beta.keeweb.info',
     License: 'https://github.com/cyosp/keeweb/blob/develop/LICENSE',
     LicenseApache: 'https://opensource.org/licenses/Apache-2.0',
     UpdateDesktop: 'https://github.com/keeweb/keeweb/releases/download/{ver}/UpdateDesktop.zip',
