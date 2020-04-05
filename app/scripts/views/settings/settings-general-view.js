@@ -51,7 +51,6 @@ class SettingsGeneralView extends View {
         'change .settings__general-prv-check': 'changeStorageEnabled',
         'click .settings__general-show-advanced': 'showAdvancedSettings',
         'click .settings__general-dev-tools-link': 'openDevTools',
-        'click .settings__general-try-beta-link': 'tryBeta',
         'click .settings__general-show-logs-link': 'showLogs',
         'click .settings__general-reload-app-link': 'reloadApp'
     };
@@ -364,17 +363,6 @@ class SettingsGeneralView extends View {
     openDevTools() {
         if (Launcher) {
             Launcher.openDevTools();
-        }
-    }
-
-    tryBeta() {
-        if (this.appModel.files.hasUnsavedFiles()) {
-            Alerts.info({
-                header: Locale.setGenTryBetaWarning,
-                body: Locale.setGenTryBetaWarningBody
-            });
-        } else {
-            location.href = Links.BetaWebApp;
         }
     }
 
