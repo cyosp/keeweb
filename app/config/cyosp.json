@@ -1,0 +1,47 @@
+{
+    "settings": {
+        "theme": "wh",
+        "locale": "fr-FR",
+        "expandGroups": false,
+        "autoUpdate": "",
+        "autoSave": true,
+        "rememberKeyFiles": "path",
+        "idleMinutes": 5,
+        "tableView": false,
+        "colorfulIcons": true,
+        "lockOnCopy": false,
+        "skipOpenLocalWarn": false,
+        "hideEmptyFields": true,
+        "skipHttpsWarning": false,
+        "demoOpened": true,
+        "generatorPresets": {
+            "default": "cyosp",
+            "user": [
+                {
+                    "name": "cyosp",
+                    "title": "CYOSP",
+                    "length": 24,
+                    "upper": true,
+                    "lower": true,
+                    "digits": true,
+                    "special": true,
+                    "brackets": true
+                }
+            ]
+        },
+        "cacheConfigSettings": false,
+        "canOpen": true,
+        "canOpenDemo": false,
+        "canOpenSettings": false,
+        "canCreate": true,
+        "canImportXml": true,
+        "canOpenWebdav": true,
+        "canOpenGenerator": true,
+        "dropbox": false,
+        "webdav": true,
+        "webdavSaveMethod": "move",
+        "gdrive": false,
+        "onedrive": false
+    },
+    "showOnlyFilesFromConfig": false
+}
