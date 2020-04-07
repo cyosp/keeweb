@@ -111,9 +111,21 @@ module.exports = function(grunt) {
                 expand: true,
                 flatten: true
             },
+            'dist-config': {
+                cwd: 'app/config/',
+                src: 'cyosp.json',
+                dest: 'dist/',
+                expand: true,
+                nonull: true
+            },
             'desktop-html': {
                 src: 'dist/index.html',
                 dest: 'tmp/desktop/app/index.html',
+                nonull: true
+            },
+            'desktop-config': {
+                src: 'dist/cyosp.json',
+                dest: 'tmp/desktop/app/cyosp.json',
                 nonull: true
             },
             'desktop-app-content': {
