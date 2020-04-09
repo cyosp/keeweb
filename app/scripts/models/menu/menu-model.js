@@ -65,7 +65,7 @@ class MenuModel extends Model {
         ]);
 
         this.generalSection = new MenuSectionModel([
-            { locTitle: 'menuSetGeneral', icon: 'cog', page: 'general', active: true }
+            { locTitle: 'menuSetGeneral', icon: 'cog', page: 'general' }
         ]);
         this.shortcutsSection = new MenuSectionModel([
             { locTitle: 'shortcuts', icon: 'keyboard-o', page: 'shortcuts' }
