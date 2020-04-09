@@ -45,8 +45,11 @@ class MenuSectionView extends View {
         }
         this.model.items.forEach(item => {
             const itemView = new MenuItemView(item, { parent: this.itemsEl[0] });
-            itemView.render();
-            this.itemViews.push(itemView);
+            const itemLocTitle = itemView.model.locTitle;
+            if(AppSettingsModel.canOpenSettings || itemLocTitle !== "menuSetGeneral" && itemLocTitle !== "plugins") {
+                itemView.render();
+                this.itemViews.push(itemView);
+            }
         });
         if (this.model.drag) {
             const height = AppSettingsModel.tagsViewHeight;
