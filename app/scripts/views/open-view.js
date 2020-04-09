@@ -37,6 +37,7 @@ class OpenView extends View {
         'click .open__icon-more': 'toggleMore',
         'click .open__icon-storage': 'openStorage',
         'click .open__icon-settings': 'openSettings',
+        'click .open__icon-about': 'openAbout',
         'click .open__pass-input[readonly]': 'openFile',
         'input .open__pass-input': 'inputInput',
         'keydown .open__pass-input': 'inputKeydown',
@@ -698,6 +699,10 @@ class OpenView extends View {
 
     openSettings() {
         Events.emit('toggle-settings');
+    }
+
+    openAbout() {
+        Events.emit('toggle-settings', 'about');
     }
 
     openStorage(e) {
