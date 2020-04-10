@@ -8,7 +8,6 @@ const Links = {
     UpdateDesktop: 'https://github.com/keeweb/keeweb/releases/download/v{ver}/UpdateDesktop.zip',
     ReleaseNotes: 'https://github.com/keeweb/keeweb/blob/master/release-notes.md#release-notes',
     SelfHostedDropbox: 'https://github.com/keeweb/keeweb#self-hosting',
-    Manifest: 'https://app.keeweb.info/manifest.appcache',
     AutoType: 'https://github.com/keeweb/keeweb/wiki/Auto-Type',
     Translation: 'https://keeweb.oneskyapp.com/',
     Donation: 'https://opencollective.com/keeweb#support',
