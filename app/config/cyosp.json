@@ -32,7 +32,7 @@
         "cacheConfigSettings": false,
         "canOpen": true,
         "canOpenDemo": false,
-        "canOpenSettings": true,
+        "canOpenSettings": false,
         "canCreate": true,
         "canImportXml": true,
         "dropbox": false,
