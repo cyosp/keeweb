@@ -5,7 +5,7 @@
         "expandGroups": false,
         "autoUpdate": "",
         "autoSave": true,
-        "rememberKeyFiles": true,
+        "rememberKeyFiles": "path",
         "idleMinutes": 5,
         "tableView": false,
         "colorfulIcons": true,
