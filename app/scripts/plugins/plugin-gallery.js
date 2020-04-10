@@ -13,53 +13,6 @@ const PluginGallery = {
     loadError: null,
 
     loadPlugins() {
-        if (this.gallery) {
-            return Promise.resolve(this.gallery);
-        }
-        this.loading = true;
-        this.loadError = false;
-        const ts = this.logger.ts();
-        return new Promise(resolve => {
-            this.logger.debug('Loading plugins...');
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', Links.Plugins + '/plugins.json?_=' + Date.now());
-            xhr.responseType = 'json';
-            xhr.send();
-            xhr.addEventListener('load', () => {
-                const data = xhr.response;
-                resolve(data);
-            });
-            xhr.addEventListener('error', () => {
-                this.logger.error('Network error loading plugins');
-                resolve();
-            });
-        })
-            .then(data => {
-                this.loading = false;
-                if (!data) {
-                    this.loadError = true;
-                    Events.emit('plugin-gallery-load-complete');
-                    return;
-                }
-                return this.verifySignature(data).then(gallery => {
-                    this.loadError = !gallery;
-                    if (gallery) {
-                        this.logger.debug(
-                            `Loaded ${gallery.plugins.length} plugins`,
-                            this.logger.ts(ts)
-                        );
-                        this.gallery = gallery;
-                        this.saveGallery(gallery);
-                    }
-                    Events.emit('plugin-gallery-load-complete');
-                    return gallery;
-                });
-            })
-            .catch(e => {
-                this.loadError = true;
-                this.logger.error('Error loading plugin gallery', e);
-                Events.emit('plugin-gallery-load-complete');
-            });
     },
 
     verifySignature(gallery) {

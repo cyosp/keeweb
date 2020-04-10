@@ -10,9 +10,7 @@ const Links = {
     SelfHostedDropbox: 'https://github.com/cyosp/keeweb#self-hosting',
     AutoType: 'https://github.com/cyosp/keeweb/blob/master/AutoType.md',
     Translation: 'https://keeweb.oneskyapp.com/',
-    Donation: 'https://opencollective.com/keeweb#support',
-    Plugins: 'https://plugins.keeweb.info',
-    PluginDevelopStart: 'https://github.com/keeweb/keeweb/wiki/Plugins'
+    Donation: 'https://opencollective.com/keeweb#support'
 };
 
 export { Links };
