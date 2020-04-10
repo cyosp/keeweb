@@ -73,7 +73,6 @@ class SettingsPluginsView extends View {
             galleryPlugins: this.getGalleryPlugins(),
             searchStr: this.searchStr,
             hasUnicodeFlags: Features.hasUnicodeFlags(),
-            pluginDevLink: Links.PluginDevelopStart,
             translateLink: Links.Translation
         });
         if (this.searchStr) {
