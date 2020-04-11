@@ -29,7 +29,6 @@ class SettingsHelpView extends View {
                 '/issues/new?body=' +
                 encodeURIComponent('!please describe your issue here!\n\n' + appInfo),
             desktopLink: Links.Desktop,
-            webAppLink: Links.WebApp,
             appInfo: escape(appInfo)
         });
     }

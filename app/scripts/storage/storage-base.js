@@ -253,9 +253,6 @@ class StorageBase {
 
     _getOauthRedirectUrl() {
         let redirectUrl = window.location.href;
-        if (redirectUrl.lastIndexOf('file:', 0) === 0) {
-            redirectUrl = Links.WebApp;
-        }
         redirectUrl = redirectUrl.split('?')[0];
         return redirectUrl;
     }
