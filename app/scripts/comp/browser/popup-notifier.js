@@ -123,7 +123,6 @@ const PopupNotifier = {
 
     isOwnUrl(url) {
         return (
-            url.lastIndexOf(Links.WebApp, 0) === 0 ||
             url.lastIndexOf(location.origin + location.pathname, 0) === 0
         );
     },
