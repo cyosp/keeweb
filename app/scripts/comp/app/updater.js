@@ -94,50 +94,6 @@ const Updater = {
     },
 
     update(startedByUser, successCallback) {
-        const ver = UpdateModel.lastVersion;
-        if (!this.enabled) {
-            logger.info('Updater is disabled');
-            return;
-        }
-        if (SemVer.compareVersions(RuntimeInfo.version, ver) >= 0) {
-            logger.info('You are using the latest version');
-            return;
-        }
-        UpdateModel.set({ updateStatus: 'downloading', updateError: null });
-        logger.info('Downloading update', ver);
-        Transport.httpGet({
-            url: Links.UpdateDesktop.replace('{ver}', ver),
-            file: 'KeeWeb-' + ver + '.zip',
-            cache: !startedByUser,
-            success: filePath => {
-                UpdateModel.set({ updateStatus: 'extracting' });
-                logger.info('Extracting update file', this.UpdateCheckFiles, filePath);
-                this.extractAppUpdate(filePath, err => {
-                    if (err) {
-                        logger.error('Error extracting update', err);
-                        UpdateModel.set({
-                            updateStatus: 'error',
-                            updateError: 'Error extracting update'
-                        });
-                    } else {
-                        UpdateModel.set({ updateStatus: 'ready', updateError: null });
-                        if (!startedByUser) {
-                            Events.emit('update-app');
-                        }
-                        if (typeof successCallback === 'function') {
-                            successCallback();
-                        }
-                    }
-                });
-            },
-            error(e) {
-                logger.error('Error downloading update', e);
-                UpdateModel.set({
-                    updateStatus: 'error',
-                    updateError: 'Error downloading update'
-                });
-            }
-        });
     },
 
     extractAppUpdate(updateFile, cb) {
