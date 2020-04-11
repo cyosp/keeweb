@@ -2,7 +2,6 @@ const Links = {
     Homepage: 'https://github.com/cyosp/keeweb',
     Repo: 'https://github.com/cyosp/keeweb',
     Desktop: 'https://github.com/cyosp/keeweb/releases/latest',
-    WebApp: 'https://app.keeweb.info',
     License: 'https://github.com/cyosp/keeweb/blob/develop/LICENSE',
     LicenseApache: 'https://opensource.org/licenses/Apache-2.0',
     ReleaseNotes: 'https://github.com/cyosp/keeweb/blob/develop/release-notes.md#release-notes',
