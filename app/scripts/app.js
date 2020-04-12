@@ -181,14 +181,20 @@ ready(() => {
         StartProfiler.report();
     }
 
+    function isWebApp() {
+        return typeof Launcher === "undefined";
+    }
+
     function getConfigParam() {
-        const metaConfig = document.head.querySelector('meta[name=kw-config]');
-        if (metaConfig && metaConfig.content && metaConfig.content[0] !== '(') {
-            return metaConfig.content;
-        }
-        const match = location.search.match(/[?&]config=([^&]+)/i);
-        if (match && match[1]) {
-            return match[1];
+        if(isWebApp() || Launcher.configEnabled()) {
+            const metaConfig = document.head.querySelector('meta[name=kw-config]');
+            if (metaConfig && metaConfig.content && metaConfig.content[0] !== '(') {
+                return metaConfig.content;
+            }
+            const match = location.search.match(/[?&]config=([^&]+)/i);
+            if (match && match[1]) {
+                return match[1];
+            }
         }
     }
 });
