@@ -191,6 +191,9 @@ const Launcher = {
     updaterEnabled() {
         return this.electron().remote.process.argv.indexOf('--disable-updater') === -1;
     },
+    configEnabled() {
+        return this.electron().remote.process.argv.indexOf('--disable-config') === -1;
+    },
     getMainWindow() {
         return this.remoteApp().getMainWindow();
     },
