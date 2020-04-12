@@ -60,6 +60,19 @@ For debug build:
 1. run `npm run dev`
 2. open `http://localhost:8085`
 
+# Run without embedded configuration
+
+Command line:
+```bash
+keeweb --disable-config
+```
+**/!\\ Keeweb will read local configuration which is a copy of embedded one /!\\**
+
+For example to access to app settings, run before previous command:
+```bash
+perl -i -pe 's/canOpenSettings":false/canOpenSettings":true/' ~/.config/KeeWeb/app-settings.json
+```
+
 # Release
 To release OSX and Debian desktop app packages using pipeline proceed like this:
 ```
