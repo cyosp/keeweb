@@ -327,7 +327,6 @@ class SettingsGeneralView extends View {
     }
 
     downloadUpdate() {
-        Launcher.openLink(Links.Desktop);
     }
 
     installFoundUpdate() {
