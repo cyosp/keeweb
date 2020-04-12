@@ -89,7 +89,6 @@ class SettingsFileView extends View {
         super.render({
             cmd: Shortcuts.actionShortcutSymbol(true),
             supportFiles: !!Launcher,
-            desktopLink: Links.Desktop,
             name: this.model.name,
             path: this.model.path,
             storage: this.model.storage,
