@@ -28,7 +28,6 @@ class SettingsHelpView extends View {
                 Links.Repo +
                 '/issues/new?body=' +
                 encodeURIComponent('!please describe your issue here!\n\n' + appInfo),
-            desktopLink: Links.Desktop,
             appInfo: escape(appInfo)
         });
     }
