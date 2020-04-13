@@ -162,31 +162,6 @@ function servePlugin(packageName) {
         if (keeWebHtmlCached) {
             res.writeHead(200);
             res.end(keeWebHtmlCached);
-        } else {
-            https.get('https://app.keeweb.info', kwRes => {
-                if (kwRes.statusCode !== 200) {
-                    console.error(
-                        'Error loading https://app.keeweb.info: HTTP status ' + kwRes.statusCode
-                    );
-                    res.writeHead(500);
-                    return res.end(
-                        'Error loading https://app.keeweb.info: HTTP status ' + kwRes.statusCode
-                    );
-                }
-                const data = [];
-                kwRes.on('data', chunk => data.push(chunk));
-                kwRes.on('end', () => {
-                    keeWebHtmlCached = Buffer.concat(data)
-                        .toString('utf8')
-                        .replace('(no-config)', 'config.json');
-                    serveKeeWebHtml(res);
-                });
-                kwRes.on('error', e => {
-                    console.error('Error loading https://app.keeweb.info', e);
-                    res.writeHead(500);
-                    res.end('Error loading https://app.keeweb.info');
-                });
-            });
         }
     };
     const serveManifestAppCache = res => {
