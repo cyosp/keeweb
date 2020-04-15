@@ -641,7 +641,6 @@ class AppView extends View {
                     this.showEntries();
                 } else {
                     this.showLastOpenFile();
-                    this.views.open.toggleMore();
                 }
             } else {
                 if (menuItem) {
