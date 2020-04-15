@@ -1,14 +1,16 @@
 os:
   - osx
-
-osx_image:
-  - xcode11.3
+  - linux
 
 language:
   - node_js
 
 node_js:
   - stable
+
+# Not available on osx
+services:
+  - docker
 
 branches:
   only:
@@ -24,10 +26,15 @@ script:
   - LAST_ORIGINAL_COMMIT_INFOS=$(echo "$GIT_LOG" | sed '/[Cc][Yy][Oo][Ss][Pp]/d' | head -1 | cut -d '_' -f 1)
   - perl -i -pe "s|<span\s*style=\"display.\s*none\">cyosp</span>|&#32;&#9282;&#32;CYOSP&#32;&#10148;&#32;#${LAST_ORIGINAL_COMMIT_INFOS}|" app/templates/settings/settings-about.hbs
   - grunt build-web-app
-  - grunt build-desktop
-  - cd dist/desktop
-  - sha512sum *.deb > KeeWeb-SHA512.txt
-  - sha512sum *.dmg >> KeeWeb-SHA512.txt
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then grunt build-desktop                  ; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then cd dist/desktop                      ; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then sha512sum *.deb > KeeWeb-SHA512.txt  ; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then sha512sum *.dmg >> KeeWeb-SHA512.txt ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then VERSION=$(echo $TRAVIS_BRANCH | perl -pe "s|.*?/.*?/(.*?)/(.*)|\1.\2|")       ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then docker build -f package/docker/Dockerfile -t cyosp/keeweb:$VERSION .          ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then docker push cyosp/keeweb:$VERSION                                             ; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then rm ~/.docker/config.json                                                      ; fi
 
 deploy:
   provider: releases
@@ -41,5 +48,6 @@ deploy:
       - "*.dmg"
       - "*.txt"
   on:
+    condition: $TRAVIS_OS_NAME = "osx"
     repo: cyosp/keeweb
     branch: fork/develop/*
