@@ -55,7 +55,7 @@ class IconSelectView extends View {
         this.$el
             .find('.icon-select__icon-download')
             .removeClass('icon-select__icon--download-error');
-        const url = this.getIconUrl(true);
+        const url = this.getIconUrl();
         const img = document.createElement('img');
         img.crossOrigin = 'Anonymous';
         img.src = url;
@@ -80,7 +80,7 @@ class IconSelectView extends View {
         };
     }
 
-    getIconUrl(useService) {
+    getIconUrl() {
         if (!this.model.url) {
             return null;
         }
@@ -90,12 +90,6 @@ class IconSelectView extends View {
         );
         if (url.indexOf('://') < 0) {
             url = 'http://' + url;
-        }
-        if (useService) {
-            return (
-                'https://services.keeweb.info/favicon/' +
-                url.replace(/^.*:\/+/, '').replace(/\/.*/, '')
-            );
         }
         return url;
     }
