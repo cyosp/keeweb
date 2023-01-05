@@ -203,10 +203,8 @@ class StorageBase {
 
     _getOauthRedirectUrl() {
         let redirectUrl = window.location.href;
-        if (redirectUrl.lastIndexOf('file:', 0) === 0) {
-            redirectUrl = Links.WebApp;
-        }
-        return new URL(`oauth-result/${this.name}.html`, redirectUrl).href;
+        redirectUrl = redirectUrl.split('?')[0];
+        return redirectUrl;
     }
 
     _oauthAuthorize(callback) {
