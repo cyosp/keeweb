@@ -275,7 +275,8 @@ class AppView extends View {
         this.views.settings = new SettingsView(this.model);
         this.views.settings.render();
         if (!selectedMenuItem) {
-            selectedMenuItem = this.model.menu.generalSection.items[0];
+            selectedMenuItem = this.model.settings.canOpenSettings ?
+                this.model.menu.generalSection.items[0] : this.model.menu.aboutSection.items[0];
         }
         this.model.menu.select({ item: selectedMenuItem });
         this.views.menu.switchVisibility(false);

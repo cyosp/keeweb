@@ -9,6 +9,7 @@ import { StringFormat } from 'util/formatting/string-format';
 import { Locale } from 'util/locale';
 import { Launcher } from 'comp/launcher';
 import { Features } from 'util/features';
+const cyospConfig = require('../../../config/cyosp.json');
 
 class MenuModel extends Model {
     constructor() {
@@ -65,52 +66,53 @@ class MenuModel extends Model {
             this.groupsSection,
             this.trashSection
         ]);
-
-        this.generalSection = new MenuSectionModel([
-            {
-                locTitle: 'menuSetGeneral',
-                icon: 'cog',
-                page: 'general',
-                section: 'top',
-                active: true
-            },
-            {
-                locTitle: 'setGenAppearance',
-                icon: '0',
-                page: 'general',
-                section: 'appearance'
-            },
-            {
-                locTitle: 'setGenFunction',
-                icon: '0',
-                page: 'general',
-                section: 'function'
-            },
-            {
-                locTitle: 'setGenAudit',
-                icon: '0',
-                page: 'general',
-                section: 'audit'
-            },
-            {
-                locTitle: 'setGenLock',
-                icon: '0',
-                page: 'general',
-                section: 'lock'
-            },
-            {
-                locTitle: 'setGenStorage',
-                icon: '0',
-                page: 'general',
-                section: 'storage'
-            },
-            {
-                locTitle: 'advanced',
-                icon: '0',
-                page: 'general',
-                section: 'advanced'
-            }
-        ]);
+        if(cyospConfig.settings.canOpenSettings) {
+            this.generalSection = new MenuSectionModel([
+                {
+                    locTitle: 'menuSetGeneral',
+                    icon: 'cog',
+                    page: 'general',
+                    section: 'top',
+                    active: true
+                },
+                {
+                    locTitle: 'setGenAppearance',
+                    icon: '0',
+                    page: 'general',
+                    section: 'appearance'
+                },
+                {
+                    locTitle: 'setGenFunction',
+                    icon: '0',
+                    page: 'general',
+                    section: 'function'
+                },
+                {
+                    locTitle: 'setGenAudit',
+                    icon: '0',
+                    page: 'general',
+                    section: 'audit'
+                },
+                {
+                    locTitle: 'setGenLock',
+                    icon: '0',
+                    page: 'general',
+                    section: 'lock'
+                },
+                {
+                    locTitle: 'setGenStorage',
+                    icon: '0',
+                    page: 'general',
+                    section: 'storage'
+                },
+                {
+                    locTitle: 'advanced',
+                    icon: '0',
+                    page: 'general',
+                    section: 'advanced'
+                }
+            ]);
+        }
         this.shortcutsSection = new MenuSectionModel([
             { locTitle: 'shortcuts', icon: 'keyboard', page: 'shortcuts' }
         ]);

@@ -94,7 +94,9 @@ class MenuItemView extends View {
     }
 
     changeActive(model, active) {
-        this.$el.toggleClass('menu__item--active', active);
+        if(this.$el) {
+            this.$el.toggleClass('menu__item--active', active);
+        }
     }
 
     changeExpanded(model, expanded) {
