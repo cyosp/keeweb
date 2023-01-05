@@ -429,33 +429,6 @@ module.exports = function (grunt) {
                     appCategoryType: 'public.app-category.productivity',
                     extendInfo: 'package/osx/extend.plist'
                 }
-            },
-            'win32-x64': {
-                options: {
-                    platform: 'win32',
-                    arch: 'x64',
-                    icon: 'graphics/icon.ico',
-                    buildVersion: pkg.version,
-                    'version-string': windowsAppVersionString
-                }
-            },
-            'win32-ia32': {
-                options: {
-                    platform: 'win32',
-                    arch: 'ia32',
-                    icon: 'graphics/icon.ico',
-                    buildVersion: pkg.version,
-                    'version-string': windowsAppVersionString
-                }
-            },
-            'win32-arm64': {
-                options: {
-                    platform: 'win32',
-                    arch: 'arm64',
-                    icon: 'graphics/icon.ico',
-                    buildVersion: pkg.version,
-                    'version-string': windowsAppVersionString
-                }
             }
         },
         'electron-builder': {

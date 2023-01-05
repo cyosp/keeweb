@@ -16,6 +16,20 @@ keeweb --disable-config
 
 **/!\\ Keeweb will use instead embedded one /!\\**
 
+## Build
+
+### App
+
+It can be built with: `grunt`.
+
+Output HTML file is generated in `dist` folder.
+
+### MacOS desktop packages
+
+It can be built with: `grunt --max-old-space-size=4096 desktop-darwin --skip-sign`.
+
+Output DMG files are generated in `dist/desktop` folder.
+
 ## Debug
 
 To debug desktop app run:
