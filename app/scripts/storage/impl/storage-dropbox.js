@@ -69,7 +69,7 @@ class StorageDropbox extends StorageBase {
     }
 
     _canUseBuiltInKeys() {
-        return !Features.isSelfHosted;
+        return false;
     }
 
     _getOAuthConfig() {

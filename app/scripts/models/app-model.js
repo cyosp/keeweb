@@ -107,9 +107,6 @@ class AppModel {
     }
 
     ensureCanLoadConfig(url) {
-        if (!Features.isSelfHosted) {
-            throw 'Configs are supported only in self-hosted installations';
-        }
         const link = document.createElement('a');
         link.href = url;
         const isExternal = link.host && link.host !== location.host;
