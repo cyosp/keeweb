@@ -30,6 +30,25 @@ It can be built with: `grunt --max-old-space-size=4096 desktop-darwin --skip-sig
 
 Output DMG files are generated in `dist/desktop` folder.
 
+### Docker image
+
+```bash
+docker build . -f package/docker/Dockerfile -t cyosp/keeweb:<tag name>
+```
+
+## Run
+
+### Docker container
+```bash
+docker run --rm -p 127.0.0.1:8080:80 -t cyosp/keeweb:<tag name>
+```
+
+### Podman container from Docker Hub
+```bash
+podman pull docker.io/cyosp/keeweb:<tag name>
+podman run --rm -p 127.0.0.1:8080:80 -t cyosp/keeweb:<tag name>
+```
+
 ## Debug
 
 To debug desktop app run:
