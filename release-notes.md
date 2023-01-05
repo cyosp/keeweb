@@ -1,5 +1,8 @@
 Release notes
 -------------
+##### 1.18.7.1 (2023-01-08)
+ * CYOSP version from tag v1.18.7
+
 ##### v1.18.7 (2021-07-18)
 `+` added Microsoft Teams storage  
 `+` added a possibility to override tenant in Microsoft OneDrive  
