@@ -205,6 +205,9 @@ const Launcher = {
     updaterEnabled() {
         return process.platform !== 'linux';
     },
+    configEnabled() {
+        return this.electron().remote.process.argv.indexOf('--disable-config') === -1;
+    },
     getMainWindow() {
         return this.remoteApp().getMainWindow();
     },
