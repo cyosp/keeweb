@@ -114,11 +114,6 @@ class MenuModel extends Model {
         this.shortcutsSection = new MenuSectionModel([
             { locTitle: 'shortcuts', icon: 'keyboard', page: 'shortcuts' }
         ]);
-        if (Launcher) {
-            this.devicesSection = new MenuSectionModel([
-                { locTitle: 'menuSetDevices', icon: 'usb', page: 'devices' }
-            ]);
-        }
         this.aboutSection = new MenuSectionModel([
             { locTitle: 'menuSetAbout', icon: 'info', page: 'about' }
         ]);
@@ -131,7 +126,6 @@ class MenuModel extends Model {
             [
                 this.generalSection,
                 this.shortcutsSection,
-                this.devicesSection,
                 this.aboutSection,
                 this.helpSection,
                 this.filesSection
