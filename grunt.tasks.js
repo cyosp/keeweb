@@ -15,11 +15,13 @@ module.exports = function (grunt) {
         'string-replace:service-worker',
         'string-replace:update-manifest',
         'copy:dist-icons',
-        'copy:dist-manifest'
+        'copy:dist-manifest',
+        'copy:dist-config'
     ]);
 
     grunt.registerTask('build-desktop-app-content', [
         'copy:desktop-html',
+        'copy:desktop-config',
         'copy:desktop-app-content',
         'string-replace:desktop-public-key'
     ]);

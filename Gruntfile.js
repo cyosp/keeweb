@@ -133,9 +133,28 @@ module.exports = function (grunt) {
                 expand: true,
                 nonull: true
             },
+            fonts: {
+                src: 'node_modules/font-awesome/fonts/fontawesome-webfont.*',
+                dest: 'tmp/fonts/',
+                nonull: true,
+                expand: true,
+                flatten: true
+            },
+            'dist-config': {
+                cwd: 'app/config/',
+                src: 'cyosp.json',
+                dest: 'dist/',
+                expand: true,
+                nonull: true
+            },
             'desktop-html': {
                 src: 'dist/index.html',
                 dest: 'tmp/desktop/app/index.html',
+                nonull: true
+            },
+            'desktop-config': {
+                src: 'dist/cyosp.json',
+                dest: 'tmp/desktop/app/cyosp.json',
                 nonull: true
             },
             'desktop-app-content': {
@@ -361,7 +380,8 @@ module.exports = function (grunt) {
                 publicPath: '/',
                 contentBase: [
                     path.resolve(__dirname, 'tmp'),
-                    path.resolve(__dirname, 'app/content')
+                    path.resolve(__dirname, 'app/content'),
+                    path.resolve(__dirname, 'app/config')
                 ],
                 progress: false
             },
