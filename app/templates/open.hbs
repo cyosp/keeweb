@@ -7,16 +7,21 @@
         </div>
     </div>
     <div class="open__icons">
-        {{#if canOpen}}
-            <div class="open__icon open__icon-open" tabindex="1" id="open__icon-open">
-                <i class="fa fa-lock open__icon-i"></i>
-                <div class="open__icon-text">{{res 'openOpen'}}</div>
+        {{#if canOpenGenerator}}
+            <div class="open__icon open__icon-generate" tabindex="12" id="open__icon-generate">
+                <i class="fa fa-bolt open__icon-i"></i>
+                <div class="open__icon-text">{{res 'openGenerate'}}</div>
             </div>
         {{/if}}
-        {{#if canCreate}}
-            <div class="open__icon open__icon-new" tabindex="2" id="open__icon-new">
-                <i class="fa fa-plus open__icon-i"></i>
-                <div class="open__icon-text">{{res 'openNew'}}</div>
+        {{#if canOpenSettings}}
+            <div class="open__icon open__icon-settings" tabindex="12" id="open__icon-settings">
+                <i class="fa fa-cog open__icon-i"></i>
+                <div class="open__icon-text">{{res 'settings'}}</div>
+            </div>
+        {{else}}
+            <div class="open__icon open__icon-about" tabindex="12" id="open__icon-about">
+                <i class="fa fa-info open__icon-i"></i>
+                <div class="open__icon-text">{{res 'setAboutTitle'}}</div>
             </div>
         {{/if}}
         <div class="open__icon open__icon-yubikey {{#unless canOpenYubiKey}}hide{{/unless}}"
@@ -25,12 +30,13 @@
             <div class="open__icon-text">YubiKey</div>
         </div>
         {{#if canOpenDemo}}
-            {{#ifeq demoOpened false}}
+            {{#if demoOpened}}
+            {{else}}
                 <div class="open__icon open__icon-demo" tabindex="4" id="open__icon-demo">
                     <i class="fa fa-magic open__icon-i"></i>
                     <div class="open__icon-text">{{res 'openDemo'}}</div>
                 </div>
-            {{/ifeq}}
+            {{/if}}
         {{/if}}
         {{#if showMore}}
             <div class="open__icon open__icon-more" tabindex="5" id="open__icon-more">
@@ -53,6 +59,18 @@
                 <div class="open__icon-text">{{res prv.name}}</div>
             </div>
         {{/each}}
+        {{#if canCreate}}
+            <div class="open__icon open__icon-new" tabindex="2" id="open__icon-new">
+                <i class="fa fa-plus open__icon-i"></i>
+                <div class="open__icon-text">{{res 'openNew'}}</div>
+            </div>
+        {{/if}}
+        {{#if canOpen}}
+            <div class="open__icon open__icon-open" tabindex="1" id="open__icon-open">
+                <i class="fa fa-lock open__icon-i"></i>
+                <div class="open__icon-text">{{res 'openOpen'}}</div>
+            </div>
+        {{/if}}
         {{#if canOpenDemo}}
             {{#if demoOpened}}
                 <div class="open__icon open__icon-demo" tabindex="20" id="open__icon-demo">
