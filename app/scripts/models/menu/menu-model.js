@@ -119,9 +119,6 @@ class MenuModel extends Model {
                 { locTitle: 'menuSetBrowser', icon: Features.browserIcon, page: 'browser' }
             ]);
         }
-        this.pluginsSection = new MenuSectionModel([
-            { locTitle: 'plugins', icon: 'puzzle-piece', page: 'plugins' }
-        ]);
         if (Launcher) {
             this.devicesSection = new MenuSectionModel([
                 { locTitle: 'menuSetDevices', icon: 'usb', page: 'devices' }
@@ -140,7 +137,6 @@ class MenuModel extends Model {
                 this.generalSection,
                 this.shortcutsSection,
                 this.browserSection,
-                this.pluginsSection,
                 this.devicesSection,
                 this.aboutSection,
                 this.helpSection,
