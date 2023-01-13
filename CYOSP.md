@@ -2,6 +2,10 @@
 
 ## Configuration
 
+### Wiki
+
+https://github.com/keeweb/keeweb/wiki/Configuration
+
 ### Allow to access to Keeweb settings
 
 ```bash
