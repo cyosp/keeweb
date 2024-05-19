@@ -6,6 +6,10 @@
 
 https://github.com/keeweb/keeweb/wiki/Configuration
 
+### Auto type
+
+https://github.com/keeweb/keeweb/wiki/Auto-Type#macOS
+
 ### Allow to access to Keeweb settings
 
 ```bash
