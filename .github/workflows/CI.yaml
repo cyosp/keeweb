@@ -105,6 +105,9 @@ jobs:
       - name: Install grunt
         run: sudo npm i -g grunt-cli
 
+      - name: Grunt version
+        run: grunt --version
+
       - name: Build MacOS packages
         run: grunt --max-old-space-size=4096 desktop-darwin --skip-sign --debug
 
