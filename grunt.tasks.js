@@ -98,7 +98,7 @@ module.exports = function (grunt) {
         'build-desktop-archives-linux'
     ]);
 
-    grunt.registerTask('build-desktop-dist-darwin', ['appdmg:x64', 'appdmg:arm64']);
+    grunt.registerTask('build-desktop-dist-darwin', ['_appdmg:x64', 'appdmg:arm64']);
 
     grunt.registerTask('build-desktop-dist-win32', [
         'nsis:win32-un-x64',
