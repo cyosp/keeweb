@@ -103,7 +103,7 @@ jobs:
         run: npm install
 
       - name: Install grunt
-        run: sudo npm i -g grunt-cli
+        run: sudo npm i -g grunt-cli@1.4.2
 
       - name: Grunt version
         run: grunt --version
