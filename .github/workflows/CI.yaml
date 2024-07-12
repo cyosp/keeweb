@@ -106,7 +106,7 @@ jobs:
         run: sudo npm i -g grunt-cli
 
       - name: Build MacOS packages
-        run: grunt --max-old-space-size=4096 desktop-darwin --skip-sign
+        run: grunt --max-old-space-size=4096 desktop-darwin --skip-sign --debug
 
       - name: Upload x64 dmg artifact
         uses: actions/upload-artifact@v1
