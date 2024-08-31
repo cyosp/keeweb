@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -e
+
+ARCH=$1
+
+SCRIPT_FOLDER=$(dirname $(readlink -f $0))
+IMAGES_FOLDER=$SCRIPT_FOLDER/../graphics
+KEEWEB_ICNS=$IMAGES_FOLDER/icon.icns
+DMG_FILE=$SCRIPT_FOLDER/../KeeWeb.dmg
+
+create-dmg \
+  --volname "KeeWeb" \
+  --volicon $KEEWEB_ICNS \
+  --background $IMAGES_FOLDER/dmg-background.png  \
+  --icon-size 80  \
+  --window-size 650 510  \
+  --icon "KeeWeb.app" 190 350  \
+  --app-drop-link 440 350  \
+  --window-pos 200 120  \
+  $DMG_FILE \
+  $SCRIPT_FOLDER/../tmp/desktop/KeeWeb-darwin-$ARCH/KeeWeb.app
+
+SETICON_BIN_FILE=$SCRIPT_FOLDER/seticon
+test ! -e $SETICON_BIN_FILE && swiftc $SCRIPT_FOLDER/seticon.swift -o $SETICON_BIN_FILE
+$SETICON_BIN_FILE $KEEWEB_ICNS $DMG_FILE

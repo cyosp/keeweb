@@ -1,5 +1,10 @@
 # Keeweb CYOSP
 
+## Installation
+ - Download an installer from: https://github.com/cyosp/keeweb/releases
+ - Install application
+ - Run: `xattr -d com.apple.quarantine /Applications/KeeWeb.app`
+
 ## Configuration
 
 ### Wiki

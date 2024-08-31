@@ -1,10 +1,10 @@
-name: CI
+name: Build and publish
 on:
   push:
     tags:
       - '*'
 jobs:
-  build:
+  build-app:
     runs-on: ubuntu-latest
     steps:
       - name: Get tag name
@@ -12,10 +12,10 @@ jobs:
         run: echo "NAME=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4.1.7
 
       - name: Upgrade Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4.0.3
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
@@ -23,50 +23,50 @@ jobs:
       - name: Install npm modules
         run: npm install
 
-      - name: Grunt
+      - name: Build application
         run: grunt
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4.3.6
         with:
           name: keeweb-dist-folder
           path: dist
 
-  docker:
+  publish-on-docker:
     runs-on: ubuntu-latest
     needs:
-      - build
+      - build-app
     steps:
       - name: Get tag name
         id: tag
         run: echo "NAME=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4.1.7
 
       - name: Download artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.8
         with:
           name: keeweb-dist-folder
           path: dist
 
       - name: Setup Docker QEMU
-        uses: docker/setup-qemu-action@v1.2.0
+        uses: docker/setup-qemu-action@v3.2.0
         with:
           platforms: linux/amd64,linux/arm/v7,linux/arm64
 
       - name: Setup Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1.6.0
+        uses: docker/setup-buildx-action@v3.6.1
 
       - name: Login to DockerHub
-        uses: docker/login-action@v1.12.0
+        uses: docker/login-action@v3.3.0
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and push Docker image to registry
-        uses: docker/build-push-action@v2.7.0
+        uses: docker/build-push-action@v6.7.0
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
@@ -75,26 +75,26 @@ jobs:
           push: true
           tags: cyosp/${{ github.event.repository.name }}:${{ steps.tag.outputs.NAME }}
 
-  macos:
+  package-app:
     runs-on: macos-latest
     needs:
-      - build
+      - build-app
     steps:
       - name: Get tag name
         id: tag
         run: echo "NAME=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4.1.7
 
       - name: Download artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4.1.8
         with:
           name: keeweb-dist-folder
           path: dist
 
       - name: Upgrade Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4.0.3
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
@@ -108,91 +108,36 @@ jobs:
       - name: Build MacOS packages
         run: grunt --max-old-space-size=4096 desktop-darwin --skip-sign
 
-      - name: Upload x64 dmg artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: KeeWeb-${{ steps.tag.outputs.NAME }}.mac.x64.dmg
-          path: dist/desktop/KeeWeb-${{ steps.tag.outputs.NAME }}.mac.x64.dmg
+      - name: Install prerequisites to package
+        run: brew install fileicon create-dmg
 
-      # Buid on M1 hardware ar later to work
-      #- name: Upload arm64 dmg artifact
-      #  uses: actions/upload-artifact@v1
-      #  with:
-      #    name: KeeWeb-${{ steps.tag.outputs.NAME }}.mac.arm64.dmg
-      #    path: dist/desktop/KeeWeb-${{ steps.tag.outputs.NAME }}.mac.arm64.dmg
+      - name: Create x64 app installer
+        run: ./macos-app/package x64
 
-  release:
-    runs-on: ubuntu-latest
-    needs:
-      - macos
-    steps:
-      - name: Get tag name
-        id: tag
-        run: echo "NAME=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
+      - name: Rename x64 DMG file
+        run: mv KeeWeb.dmg KeeWeb-${{ steps.tag.outputs.NAME }}.x64.dmg
 
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Create arm64 app installer
+        run: ./macos-app/package arm64
 
-      - name: Download x64 dmg artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: KeeWeb-${{ steps.tag.outputs.NAME }}.mac.x64.dmg
-          path: assets
+      - name: Rename arm64 DMG file
+        run: mv KeeWeb.dmg KeeWeb-${{ steps.tag.outputs.NAME }}.arm64.dmg
 
-      #- name: Download arm64 dmg artifact
-      #  uses: actions/download-artifact@v1
-      #  with:
-      #    name: KeeWeb-${{ steps.tag.outputs.NAME }}.mac.arm64.dmg
-      #    path: assets
+      - name: Install coreutils for sha512sum
+        run: brew install coreutils
 
       - name: Create check sum file
         run: sha512sum *.dmg > KeeWeb-SHA512.txt
-        working-directory: assets
 
       - name: Create GitHub release
         id: release
-        uses: actions/create-release@v1.1.4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1.14.0
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ steps.tag.outputs.NAME }}
           draft: true
-
-      - name: Upload x64 DMG to release
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: assets/KeeWeb-${{ steps.tag.outputs.NAME }}.mac.x64.dmg
-          asset_name: KeeWeb-${{ steps.tag.outputs.NAME }}.mac.x64.dmg
-          asset_content_type: application/octet-stream
-
-      #- name: Upload arm64 DMG to release
-      #  uses: actions/upload-release-asset@v1.0.2
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #  with:
-      #    upload_url: ${{ steps.release.outputs.upload_url }}
-      #    asset_path: assets/KeeWeb-${{ steps.tag.outputs.NAME }}.mac.arm64.dmg
-      #    asset_name: KeeWeb-${{ steps.tag.outputs.NAME }}.mac.arm64.dmg
-      #    asset_content_type: application/octet-stream
-
-      - name: Upload check sum file to release
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: assets/KeeWeb-SHA512.txt
-          asset_name: KeeWeb-SHA512.txt
-          asset_content_type: text/plain
+          artifacts: "KeeWeb-*"
 
       - name: Publish release with notes
-        uses: cyosp/publish-release-with-notes@1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: cyosp/publish-release-with-notes@2.0.0
         with:
           id: ${{ steps.release.outputs.id }}
           version: ${{ steps.tag.outputs.NAME }}
