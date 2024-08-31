@@ -1,5 +1,8 @@
 Release notes
 -------------
+##### 1.18.7.2 (2023-08-31)
+ * Build DMG installer with create-dmg tool
+
 ##### 1.18.7.1 (2023-01-08)
  * CYOSP version from tag v1.18.7
 
