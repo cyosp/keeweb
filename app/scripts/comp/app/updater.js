@@ -18,10 +18,11 @@ const Updater = {
     MinUpdateSize: 10000,
     nextCheckTimeout: null,
     updateCheckDate: new Date(0),
-    enabled: Launcher?.updaterEnabled(),
-
+    getEnabled() {
+        return Launcher?.updaterEnabled();
+    },
     getAutoUpdateType() {
-        if (!this.enabled) {
+        if (!this.getEnabled()) {
             return false;
         }
         let autoUpdate = AppSettingsModel.autoUpdate;

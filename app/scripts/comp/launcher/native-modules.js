@@ -5,7 +5,6 @@ import { Launcher } from 'comp/launcher';
 import { Timeouts } from 'const/timeouts';
 
 let NativeModules;
-
 if (Launcher) {
     const logger = new Logger('native-module-connector');
 
@@ -15,12 +14,11 @@ if (Launcher) {
     let promises = {};
     let ykChalRespCallbacks = {};
 
-    const { ipcRenderer } = Launcher.electron();
-    ipcRenderer.on('nativeModuleCallback', (e, msg) => NativeModules.hostCallback(msg));
-    ipcRenderer.on('nativeModuleHostError', (e, err) => NativeModules.hostError(err));
-    ipcRenderer.on('nativeModuleHostExit', (e, { code, sig }) => NativeModules.hostExit(code, sig));
-    ipcRenderer.on('nativeModuleHostDisconnect', () => NativeModules.hostDisconnect());
-    ipcRenderer.on('log', (e, ...args) => NativeModules.log(...args));
+    Launcher.ipcRendererOn('nativeModuleCallback', (e, msg) => NativeModules.hostCallback(msg));
+    Launcher.ipcRendererOn('nativeModuleHostError', (e, err) => NativeModules.hostError(err));
+    Launcher.ipcRendererOn('nativeModuleHostExit', (e, { code, sig }) => NativeModules.hostExit(code, sig));
+    Launcher.ipcRendererOn('nativeModuleHostDisconnect', () => NativeModules.hostDisconnect());
+    Launcher.ipcRendererOn('log', (e, ...args) => NativeModules.log(...args));
 
     const handlers = {
         yubikeys(numYubiKeys) {

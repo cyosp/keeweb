@@ -18,10 +18,12 @@ const clearTextAutoTypeLog = !!localStorage.debugAutoType;
 
 const AutoType = {
     enabled: !!(Launcher && Launcher.autoTypeSupported),
-    supportsEventsWithWindowId: !!(Launcher && Launcher.platform() === 'linux'),
     selectEntryView: false,
     running: false,
 
+    getSupportsEventsWithWindowId() {
+        return !!(Launcher && Launcher.platform() === 'linux');
+    },
     init() {
         if (!this.enabled) {
             return;
@@ -191,14 +193,14 @@ const AutoType = {
                 logger.debug('Error during active window check, something is wrong', err);
                 return callback(false);
             }
-            if (activeWindowInfo.id !== windowInfo.id && !this.supportsEventsWithWindowId) {
+            if (activeWindowInfo.id !== windowInfo.id && !this.getSupportsEventsWithWindowId()) {
                 logger.info(
                     `Active window doesn't match: ID is different. ` +
                         `Expected ${windowInfo.id}, got ${activeWindowInfo.id}`
                 );
                 return callback(false, activeWindowInfo);
             }
-            if (activeWindowInfo.url !== windowInfo.url && !this.supportsEventsWithWindowId) {
+            if (activeWindowInfo.url !== windowInfo.url && !this.getSupportsEventsWithWindowId()) {
                 logger.info(
                     `Active window doesn't match: url is different. ` +
                         `Expected "${windowInfo.url}", got "${activeWindowInfo.url}"`

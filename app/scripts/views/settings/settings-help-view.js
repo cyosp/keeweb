@@ -17,7 +17,7 @@ class SettingsHelpView extends View {
             RuntimeInfo.buildDate +
             ')\n' +
             'Environment: ' +
-            (Launcher ? Launcher.name + ' v' + Launcher.version : 'web') +
+            (Launcher ? Launcher.name + ' v' + Launcher.getVersion() : 'web') +
             '\n' +
             'User-Agent: ' +
             navigator.userAgent;

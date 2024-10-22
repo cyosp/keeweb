@@ -40,15 +40,13 @@ const BrowserExtensionConnector = {
         this.browserWindowMessage = this.browserWindowMessage.bind(this);
 
         if (Launcher) {
-            const { ipcRenderer } = Launcher.electron();
-
-            ipcRenderer.on('browserExtensionSocketConnected', (e, socketId, connectionInfo) =>
+            Launcher.ipcRendererOn('browserExtensionSocketConnected', (e, socketId, connectionInfo) =>
                 this.socketConnected(socketId, connectionInfo)
             );
-            ipcRenderer.on('browserExtensionSocketClosed', (e, socketId) =>
+            Launcher.ipcRendererOn('browserExtensionSocketClosed', (e, socketId) =>
                 this.socketClosed(socketId)
             );
-            ipcRenderer.on('browserExtensionSocketRequest', (e, socketId, request) =>
+            Launcher.ipcRendererOn('browserExtensionSocketRequest', (e, socketId, request) =>
                 this.socketRequest(socketId, request)
             );
 
@@ -117,19 +115,19 @@ const BrowserExtensionConnector = {
     },
 
     enable(browser, extension, enabled) {
-        const { ipcRenderer } = Launcher.electron();
+        const ipcRenderer = Launcher.ipcRenderer();
         ipcRenderer.invoke('browserExtensionConnectorEnable', browser, extension, enabled);
     },
 
     async startDesktopAppListener() {
-        const { ipcRenderer } = Launcher.electron();
+        const ipcRenderer = Launcher.ipcRenderer();
         ipcRenderer.invoke('browserExtensionConnectorStart', {
             appleTeamId: RuntimeInfo.appleTeamId
         });
     },
 
     stopDesktopAppListener() {
-        const { ipcRenderer } = Launcher.electron();
+        const ipcRenderer = Launcher.ipcRenderer();
         ipcRenderer.invoke('browserExtensionConnectorStop');
     },
 
@@ -179,12 +177,12 @@ const BrowserExtensionConnector = {
     },
 
     sendSocketEvent(data) {
-        const { ipcRenderer } = Launcher.electron();
+        const ipcRenderer = Launcher.ipcRenderer();
         ipcRenderer.invoke('browserExtensionConnectorSocketEvent', data);
     },
 
     sendSocketResult(socketId, data) {
-        const { ipcRenderer } = Launcher.electron();
+        const ipcRenderer = Launcher.ipcRenderer();
         ipcRenderer.invoke('browserExtensionConnectorSocketResult', socketId, data);
     },
 
@@ -229,7 +227,7 @@ const BrowserExtensionConnector = {
     terminateConnection(connectionId) {
         connectionId = +connectionId;
         if (Launcher) {
-            const { ipcRenderer } = Launcher.electron();
+            const ipcRenderer = Launcher.ipcRenderer();
             ipcRenderer.invoke('browserExtensionConnectorCloseSocket', connectionId);
         } else {
             ProtocolImpl.deleteConnection(connectionId);

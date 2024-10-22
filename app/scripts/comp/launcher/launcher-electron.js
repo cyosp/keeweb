@@ -9,25 +9,33 @@ const logger = new Logger('launcher');
 
 const Launcher = {
     name: 'electron',
-    version: window.process.versions.electron,
     autoTypeSupported: true,
     thirdPartyStoragesSupported: true,
     clipboardSupported: true,
-    req: window.require,
+    req: window.electron.require(),
+    getVersion() {
+        return window.electron.getProcess().versions.electron;
+    },
     platform() {
-        return process.platform;
+        return window.electron.getProcess().platform;
     },
     arch() {
-        return process.arch;
+        return window.electron.getProcess().arch;
     },
     electron() {
-        return this.req('electron');
+        return window.electron.electron();
+    },
+    ipcRenderer() {
+        return window.electron.ipcRenderer();
+    },
+    ipcRendererOn(event, listener) {
+        window.electron.ipcRendererOn(event, listener);
     },
     remoteApp() {
-        return this.electron().remote.app;
+       return window.electron.remoteApp();
     },
-    remReq(mod) {
-        return this.electron().remote.require(mod);
+    remoteAppOn(event, listener) {
+       return window.electron.remoteAppOn(event, listener);
     },
     openLink(href) {
         if (/^(http|https|ftp|sftp|mailto):/i.test(href)) {
@@ -36,15 +44,15 @@ const Launcher = {
     },
     devTools: true,
     openDevTools() {
-        this.electron().remote.getCurrentWindow().webContents.openDevTools({ mode: 'bottom' });
+        window.electron.getCurrentWindow().webContents.openDevTools({ mode: 'bottom' });
     },
     getSaveFileName(defaultPath, callback) {
         if (defaultPath) {
-            const homePath = this.remReq('electron').app.getPath('userDesktop');
+            const homePath = this.remoteApp().getPath('userDesktop');
             defaultPath = this.joinPath(homePath, defaultPath);
         }
-        this.remReq('electron')
-            .dialog.showSaveDialog({
+        window.electron.getDialog()
+            .showSaveDialog({
                 title: Locale.launcherSave,
                 defaultPath,
                 filters: [{ name: Locale.launcherFileFilter, extensions: ['kdbx'] }]
@@ -77,7 +85,7 @@ const Launcher = {
         return this.joinPath(dirname(appPath), fileName || '');
     },
     getWorkDirPath(fileName) {
-        return this.joinPath(process.cwd(), fileName || '');
+        return this.joinPath(window.electron.getProcess().cwd(), fileName || '');
     },
     joinPath(...parts) {
         return this.req('path').join(...parts);
@@ -178,15 +186,14 @@ const Launcher = {
         this.pendingUpdateFile = undefined;
     },
     setClipboardText(text) {
-        return this.electron().clipboard.writeText(text);
+        return window.electron.getClipboard().writeText(text);
     },
     getClipboardText() {
-        return this.electron().clipboard.readText();
+        return window.electron.getClipboard().readText();
     },
     clearClipboardText() {
-        const { clipboard } = this.electron();
-        clipboard.clear();
-        if (process.platform === 'linux') {
+        window.electron.getClipboard().clear();
+        if (window.electron.getProcess().platform === 'linux') {
             clipboard.clear('selection');
         }
     },
@@ -200,13 +207,13 @@ const Launcher = {
         });
     },
     canDetectOsSleep() {
-        return process.platform !== 'linux';
+        return window.electron.getProcess().platform !== 'linux';
     },
     updaterEnabled() {
-        return process.platform !== 'linux';
+        return window.electron.getProcess().platform !== 'linux';
     },
     configEnabled() {
-        return this.electron().remote.process.argv.indexOf('--disable-config') === -1;
+        return window.electron.configEnabled();
     },
     getMainWindow() {
         return this.remoteApp().getMainWindow();
@@ -229,7 +236,7 @@ const Launcher = {
         }
     },
     isAppFocused() {
-        return !!this.electron().remote.BrowserWindow.getFocusedWindow();
+        return window.electron.getFocusedWindow();
     },
     showMainWindow() {
         this.remoteApp().showAndFocusMainWindow();
@@ -311,6 +318,15 @@ if (window.launcherOpenedFile) {
 }
 Events.on('app-ready', () =>
     setTimeout(() => {
+        if (window.electron.getProcess().platform === 'darwin') {
+            Launcher.remoteApp().setHookBeforeQuitEvent(true);
+        }
+        Launcher.remoteAppOn('remote-app-event', (e) => {
+            if (window.debugRemoteAppEvents) {
+                logger.debug('remote-app-event', e.name);
+            }
+            Events.emit(e.name, e.data);
+        });
         Launcher.checkOpenFiles();
         Launcher.remoteApp().setAboutPanelOptions({
             applicationVersion: RuntimeInfo.version,
@@ -318,16 +334,5 @@ Events.on('app-ready', () =>
         });
     }, 0)
 );
-
-if (process.platform === 'darwin') {
-    Launcher.remoteApp().setHookBeforeQuitEvent(true);
-}
-
-Launcher.remoteApp().on('remote-app-event', (e) => {
-    if (window.debugRemoteAppEvents) {
-        logger.debug('remote-app-event', e.name);
-    }
-    Events.emit(e.name, e.data);
-});
 
 export { Launcher };

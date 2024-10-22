@@ -207,6 +207,16 @@ module.exports = function (grunt) {
                 dest: 'tmp/desktop/KeeWeb-darwin-arm64/KeeWeb.app/Contents/Resources/',
                 nonull: true
             },
+            'electron-remote-module-x64': {
+                src: 'node_modules/@electron/**',
+                dest: 'tmp/desktop/KeeWeb-darwin-x64/KeeWeb.app/Contents/Resources/',
+                nonull: true
+            },
+            'electron-remote-module-arm64': {
+                src: 'node_modules/@electron/**',
+                dest: 'tmp/desktop/KeeWeb-darwin-arm64/KeeWeb.app/Contents/Resources/',
+                nonull: true
+            },
             'native-modules-win32-x64': {
                 src: 'node_modules/@keeweb/keeweb-native-modules/*-win32-x64.node',
                 dest: 'tmp/desktop/KeeWeb-win32-x64/resources/',
@@ -464,14 +474,6 @@ module.exports = function (grunt) {
                     }
                 }
             }
-        },
-        'electron-patch': {
-            'win32-x64': 'tmp/desktop/KeeWeb-win32-x64/KeeWeb.exe',
-            'win32-ia32': 'tmp/desktop/KeeWeb-win32-ia32/KeeWeb.exe',
-            'win32-arm64': 'tmp/desktop/KeeWeb-win32-arm64/KeeWeb.exe',
-            'darwin-x64': 'tmp/desktop/KeeWeb-darwin-x64/KeeWeb.app',
-            'darwin-arm64': 'tmp/desktop/KeeWeb-darwin-arm64/KeeWeb.app',
-            'linux': 'tmp/desktop/KeeWeb-linux-x64/keeweb'
         },
         osacompile: {
             options: {

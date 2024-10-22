@@ -5,7 +5,10 @@ if (process.send && process.argv.includes('--native-module-host')) {
     return;
 }
 
+
+
 const electron = require('electron');
+require('@electron/remote/main').initialize();
 const path = require('path');
 const fs = require('fs');
 const url = require('url');
@@ -294,13 +297,14 @@ function createMainWindow() {
         frame: !frameless,
         backgroundColor: bgColor,
         webPreferences: {
-            contextIsolation: false,
+            nativeWindowOpen: true,
+            contextIsolation: true,
             backgroundThrottling: false,
             nodeIntegration: true,
             nodeIntegrationInWorker: true,
-            enableRemoteModule: true,
             spellcheck: false,
-            v8CacheOptions: 'none'
+            v8CacheOptions: 'none',
+            preload: path.join(__dirname, 'preload.js')
         }
     };
     if (process.platform !== 'win32') {
@@ -308,7 +312,7 @@ function createMainWindow() {
     }
     mainWindow = new electron.BrowserWindow(windowOptions);
     logProgress('creating main window');
-
+    require("@electron/remote/main").enable(mainWindow.webContents);
     mainWindow.loadURL(htmlPath);
     mainWindow.once('ready-to-show', () => {
         logProgress('main window ready');
