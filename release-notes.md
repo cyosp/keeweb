@@ -1,6 +1,9 @@
 Release notes
 -------------
-##### 1.18.7.2 (2023-08-31)
+##### 1.18.7.3 (2024-11-01)
+ * Electron upgrade to 14
+
+##### 1.18.7.2 (2024-08-31)
  * Build DMG installer with create-dmg tool
 
 ##### 1.18.7.1 (2023-01-08)
