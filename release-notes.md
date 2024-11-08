@@ -1,5 +1,8 @@
 Release notes
 -------------
+##### 1.18.7.4 (2024-11-08)
+ * Fix: Broken save file function
+
 ##### 1.18.7.3 (2024-11-01)
  * Electron upgrade to 14
 
