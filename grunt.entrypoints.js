@@ -46,14 +46,20 @@ module.exports = function(grunt) {
         'sign-dist'
     ]);
 
-    grunt.registerTask('dev-desktop-darwin', 'Build a macOS app in dev environment', [
+    grunt.registerTask('dev-desktop-darwin', 'Build macOS apps in dev environment', [
         'default',
         'build-desktop-app-content',
         'electron:darwin-x64',
+        'electron:darwin-arm64',
         'build-darwin-installer',
         'copy:desktop-darwin-installer-helper-x64',
+        'copy:desktop-darwin-installer-helper-arm64',
         'copy:native-modules-darwin-x64',
-        'copy:native-messaging-host-darwin-x64'
+        'copy:native-modules-darwin-arm64',
+        'copy:native-messaging-host-darwin-x64',
+        'copy:native-messaging-host-darwin-arm64',
+        'copy:electron-remote-module-x64',
+        'copy:electron-remote-module-arm64'
     ]);
 
     grunt.registerTask('dev-desktop-darwin-signed', 'Build a signed macOS app in dev environment', [

@@ -48,7 +48,8 @@ module.exports = function (grunt) {
         date,
         beta: !!grunt.option('beta'),
         sha,
-        appleTeamId: '3LE7JZ657W'
+        appleTeamId: '3LE7JZ657W',
+        mode: grunt.option('dev-mode') !== undefined ? 'development' : 'production'
     };
 
     const windowsAppVersionString = {
