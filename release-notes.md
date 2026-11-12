@@ -1,5 +1,8 @@
 Release notes
 -------------
+##### 1.18.7.6 (2026-11-12)
+ * Add time zone support to Docker image
+
 ##### 1.18.7.5 (2024-11-12)
  * Electron upgrade to 33
 
