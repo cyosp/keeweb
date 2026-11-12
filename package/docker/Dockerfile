@@ -5,7 +5,8 @@ LABEL maintainer=cyosp@cyosp.com
 RUN apk upgrade \
     && apk add \
         nginx \
-        bash
+        bash \
+        tzdata
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN sed -i 's|access_log.*|access_log /dev/stdout;|g' /etc/nginx/nginx.conf;
